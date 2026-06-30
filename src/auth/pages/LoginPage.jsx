@@ -2,6 +2,7 @@ import { useForm } from '../../hooks/useForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { startLogin } from '../../store/auth/thunks'
 import { NavLink } from 'react-router'
+import toast from 'react-hot-toast'
 
 const formData = {
 	email: '',
@@ -16,6 +17,20 @@ export const LoginPage = () => {
 	
 	const handleSubmit = async (e) => {
 		e.preventDefault()		
+
+		if (!email.trim() || !password.trim()) {
+			return toast.error('Todos los campos son obligatorios', { position: 'top-center' })
+		}
+
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+		if (!emailRegex.test(email)) {
+			return toast.error('El correo electrónico no es válido', { position: 'top-center' })
+		}
+
+		if (password.length < 6) {
+			return toast.error('La contraseña debe tener al menos 6 caracteres', { position: 'top-center' })
+		}
+
 		dispatch( startLogin(email, password) )
 		
 	}

@@ -6,7 +6,7 @@ export const categoriesSlice = createSlice({
 		isLoading: false,
 		isSaving: false,
 		isDeleting: false,
-		categories: [], // {id: "ABC123", name: "Personal", color: "#ff0000"}, {...}
+		categories: [],
 		errorMessage: null
 	},
 	reducers: {

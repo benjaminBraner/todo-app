@@ -18,8 +18,27 @@ export const startRegister = (name, email, password) => {
 		if (!result?.data()) {
 			const docRef = await addDoc(collectionRef, { name, email, password })
 			const user = { id: docRef.id, name, email, password }
+			
+			const defaultCategories = [
+				{ name: "Personal", color: "#3b82f6" },
+				{ name: "Trabajo", color: "#ef4444" },
+				{ name: "Hogar", color: "#10b981" },
+				{ name: "Estudio", color: "#f59e0b" },
+				{ name: "Salud", color: "#8b5cf6" }
+			]
+
+			const categoriesRef = collection(firestoreDB, `users/${user.id}/categories`)
+			
+			const categoriesWithIds = []
+			for (const cat of defaultCategories) {
+				const newCatRef = await addDoc(categoriesRef, cat)
+				categoriesWithIds.push({ id: newCatRef.id, ...cat })
+			}
+
 			dispatch(login(user))
 			localStorage.setItem('auth', JSON.stringify(user))
+			
+			dispatch(setCategories(categoriesWithIds))
 			
 		} else {
 			dispatch(setAuthError('This email is already registered'))

@@ -24,7 +24,7 @@ export const CategoryItem = ({ id, name, color }) => {
 			<div className="category-actions">
 				<div className="color-circle" style={{ backgroundColor: color }} />
 				<button className="delete-button-category" onClick={() => handleDelete(id)} title="Eliminar categoría">
-					🗑️
+					<img src="/icons/trash.svg" alt="Delete" className="delete-icon" />
 				</button>
 			</div>
 		</div>
